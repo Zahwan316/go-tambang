@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go tambang</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.css' integrity='sha512-azoUtNAvw/SpLTPr7Z7M+5BPWGOxXOqn3/pMnCxyDqOiQd4wLVEp0+AqV8HcoUaH02Lt+9/vyDxwxHojJOsYNA==' crossorigin='anonymous'/>
+</head>
+<body>
+    <main class="d-flex justify-content-center align-items-center w-100" style="height:100vh">
+        <canvas class="border border-black w-100" id='screen' style="height:100vh"></canvas>
+
+        <!-- hud -->
+        <div class="mainhud position-absolute d-flex" style="height:12vh;top:0;width:100%">
+            <div class="player1-hud  d-flex justify-content-center align-items-center flex-column" style='width: 45%;'>
+                <div>
+                    <h2 class="text-white">Player 1</h2>
+                </div>
+                <div>
+                    <span class="text-white" id='score-player-1'>5</span>
+                </div>
+            </div>
+            <div class="time d-flex justify-content-center align-items-center flex-column" style="width:10%">
+                <h2 class="text-white" id='time'>60</h2>
+                <p class='text-white'>Ronde : <span id='ronde'>5</span> </p>
+            </div>
+            <div class="player2-hud r d-flex justify-content-center align-items-center flex-column"  style='width: 46%;'>
+                <div>
+                    <h2 class="text-white">Player 2</h2>
+                </div>
+                <div>
+                    <span class="text-white" id='score-player-2'>5</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src='index.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.js' integrity='sha512-DPUu8AASCK4LgK2+PG3ACvGh55Rd8IriP7IowJC2oI+rUb7I0Mh1l4+jO8uZQf7Y5goe919rdWG3mT8rw2kxzw==' crossorigin='anonymous'></script>
+</body>
+</html>

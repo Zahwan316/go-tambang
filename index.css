@@ -1,0 +1,22 @@
+*{
+    padding: 0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+.player1-hud,.player2-hud,.time{
+    backdrop-filter: blur(28px);
+    border-radius: 4px;
+}
+
+.player1-hud{
+    background-color:rgba(0, 0, 255, 0.549);
+}
+
+.player2-hud{
+    background-color:rgba(255, 0, 0, 0.437)
+}
+
+.time{
+    background-color: rgba(30, 30, 30, 0.382);
+}
