@@ -16,12 +16,19 @@ player2img.src = "asset/player-flipped.png"
 ropeimg.src = "asset/thick-rope.png"
 backgroundimg.src = "asset/background1.jpg"
 
+const audio = new Audio
+audio.src = "asset/audio-main.mp3"
+
 //call dom element
 const time = document.getElementById('time')
 const score_player_1 = document.getElementById('score-player-1')
 const score_player_2 = document.getElementById('score-player-2')
 const ronde = document.getElementById('ronde')
-
+const hud_notif = document.getElementById("hud-notif")
+const hud_text = document.getElementById("text-notif")
+const btn_restart = document.getElementById("btn-restart")
+const btn_start = document.getElementById("btn-start")
+const main_menu_hud = document.getElementById("mainmenuhud")
 
 class player {
     constructor(){
@@ -33,6 +40,8 @@ class player {
         }
         this.speedx = 0;
         this.maxspeedx = 5
+        this.keypressed = false
+
 
     }
     draw(ctx){
@@ -40,15 +49,19 @@ class player {
     }
 
     keyclick(){
-        this.speedx -= this.maxspeedx
-        Player2.speedx -= this.maxspeedx
-        Rope.speedx -= this.maxspeedx
+        if(!this.keypressed){
+            this.speedx -= this.maxspeedx
+            Player2.speedx -= this.maxspeedx
+            Rope.speedx -= this.maxspeedx
+            this.keypressed = true
+        }
     }
 
     stop(){
         this.speedx = 0
         Player2.speedx = 0
         Rope.speedx = 0
+        this.keypressed = false
     }
 
     update(){
@@ -56,6 +69,9 @@ class player {
         if(this.pos.x + this.width / 2 > Middle.pos.x && this.pos.x - this.width < Middle.pos.x - Middle.width){
             Gamesetting.gamestate = gamestate.matching
             Gamesetting.player2_score++
+            hud_text.innerHTML = "Player 2 Menang"
+            hud_notif.style.display = "flex"
+            Gamesetting.clockadd = true
         }
     }
 
@@ -71,6 +87,7 @@ class player2{
         }
         this.speedx = 0;
         this.maxspeedx = 5
+        this.keypressed = false
     }
 
     draw(ctx){
@@ -79,15 +96,19 @@ class player2{
     }
 
     keyclick(){
-        this.speedx += this.maxspeedx
-        Player.speedx += this.maxspeedx
-        Rope.speedx += this.maxspeedx
+        if(!this.keypressed){
+            this.speedx += this.maxspeedx
+            Player.speedx += this.maxspeedx
+            Rope.speedx += this.maxspeedx
+            this.keypressed = true
+        }
     }
 
     stop(){
         this.speedx = 0
         Player.speedx =0
         Rope.speedx = 0
+        this.keypressed = false
     }
 
     update(){
@@ -96,6 +117,9 @@ class player2{
         if(this.pos.x  < Middle.pos.x   ){
             Gamesetting.gamestate = gamestate.matching
             Gamesetting.player1_score++
+            hud_notif.style.display = "flex"
+            hud_text.innerHTML = "Player 1 Menang"
+            Gamesetting.clockadd = true
         }
     }
 }
@@ -139,7 +163,8 @@ class middle{
 let gamestate = {
     mainmenu:0,
     play:1,
-    matching:2
+    matching:2,
+    done:3
 }
 
 class gamesetting{
@@ -147,8 +172,9 @@ class gamesetting{
         this.round = 1
         this.player1_score = 0
         this.player2_score = 0
-        this.gamestate = gamestate.play
+        this.gamestate = gamestate.mainmenu
         this.clock = 60
+        this.clockadd = true
     }
 
     reset(){
@@ -156,20 +182,62 @@ class gamesetting{
         Player.pos.x = 280 + Player.width
         this.clock = 60
         Rope.pos.x = 220
+       
     }
 
     update(){
         ronde.innerHTML = this.round
         score_player_1.innerHTML = this.player1_score
         score_player_2.innerHTML = this.player2_score
-
         if(this.clock < 1){
             this.clock = 0
+            this.gamestate = gamestate.matching
+            hud_notif.style.display = "flex"
+            hud_text.innerHTML = "Seri"
+            //this.round++
+            this.clockadd = true
+
+        }
+
+        if(this.round >= 5){
+            this.gamestate = gamestate.done
+        }
+
+        if(this.gamestate === gamestate.mainmenu){
+            this.reset()
+            
+        }
+
+        if(this.gamestate === gamestate.play){
+
         }
 
         if(this.gamestate === gamestate.matching){
+            if(this.clockadd){
+                this.round++
+                this.clockadd = false
+            }
             this.reset()
-            setTimeout(() => {this.gamestate = gamestate.play},500)
+            setTimeout(() => {
+                this.gamestate = gamestate.play
+                hud_notif.style.display = "none"
+            },1000)
+        }
+
+
+        if(this.gamestate === gamestate.done){
+            this.reset()
+            hud_notif.style.display = "flex"
+            btn_restart.style.display = "flex"
+            if(this.player1_score > this.player2_score){
+                hud_text.innerHTML = "Selamat Player 1 Menang"
+            }
+            else if(this.player2_score > this.player1_score){
+                hud_text.innerHTML = "Selamat Player 2 Menang"
+            }
+            else if(this.player2_score == this.player1_score){
+                hud_text.innerHTML = "Yahh Game Seri"
+            }
         }
     }
 }
@@ -181,7 +249,10 @@ const Middle = new middle()
 const Gamesetting = new gamesetting()
 
 const init = window.onload = () => {
-    setInterval(update,10)
+    alert("Aturan Game : \n1.Game ini dimainkan oleh 2 orang tipe game ini lebih ke tap-tap \n2.Tap huruf R untuk menarik tambang Player 1 dan Tap huruf I untuk menarik tambang Player 2  \n3.Jangan Sampai Player Mengenai Garis Tengah Yang Berwarna Hitam \n4.Player Dengan Score Yang Paling Banyak Dialah Pemenangnya \n5.Waktu Hanya 60 Detik dan Hanya 5 Ronde \n \nMaaf kalau masih ada bug,game ini dibuat dalam waktu 2 hari \nDibuat oleh : Zahwan \nIndonesia Merdeka!!")
+    audio.play()
+    audio.volume = 0.6
+    setInterval(update,50)
 }
 
 const update = () => {
@@ -196,6 +267,7 @@ const update = () => {
     Player2.update()
     Rope.update()
     Gamesetting.update()
+    audio.play()
 }
 
 //clock logic
@@ -205,10 +277,19 @@ const clock = () => {
         time.innerHTML = Gamesetting.clock
     }
 
-    setInterval(decrease,200)
+    setInterval(decrease,1000)
 }
 
-clock()
+
+    clock()
+
+
+
+//btn logic
+btn_start.addEventListener("click",() => {
+    main_menu_hud.style.display = "none"
+    Gamesetting.gamestate = gamestate.play
+})
 
 //movement logic
 window.addEventListener('keydown',(e) => {

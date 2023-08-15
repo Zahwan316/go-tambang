@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go tambang</title>
     <link rel="stylesheet" href="index.css">
+    <link rel="shortcut icon" href="asset/indonesia.jpg" type="image/x-icon">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.css' integrity='sha512-azoUtNAvw/SpLTPr7Z7M+5BPWGOxXOqn3/pMnCxyDqOiQd4wLVEp0+AqV8HcoUaH02Lt+9/vyDxwxHojJOsYNA==' crossorigin='anonymous'/>
 </head>
 <body>
@@ -35,6 +36,19 @@
                 </div>
             </div>
         </div>
+
+        <!-- screen matching -->
+        <div class='matching w-100 h-100 position-absolute' id="hud-notif">
+            <h2 class="text-white" id="text-notif">Player 1 Menang</h2>
+            <button class="btn btn-primary" id='btn-restart' onclick="window.location.reload()">Restart Game</button>
+        </div>
+
+        <!-- splash screen -->
+        <div class='mainmenu position-absolute w-100 h-100' id="mainmenuhud">
+            <h1 class="text-white">Go Tambang!!</h1>
+            <button class='btn btn-success text-white' id='btn-start'>Mulai</button>
+        </div>
+
     </main>
 
     <script src='index.js'></script>
