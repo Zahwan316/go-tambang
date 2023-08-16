@@ -1,7 +1,7 @@
 const screen = document.getElementById("screen")
 const ctx = screen.getContext('2d');
 
-const main_screen_width = document.documentElement.clientWidth
+const main_screen_width = 1366
 const main_screen_height = 700
 
 screen.width = main_screen_width
@@ -129,7 +129,7 @@ class rope{
         this.width = 1000
         this.height = 50
         this.pos = {
-            x:220,
+            x:0,
             y:main_screen_height - 120
         }
         this.speedx = 0
